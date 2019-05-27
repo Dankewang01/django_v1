@@ -36,10 +36,36 @@ models 模型
  
  #强制迁移
  
- Python manage.py makemigrations 应用名
- python manage.py migrate 应用名
+ 强制准备：Python manage.py makemigrations 应用名 
+ 
+ 执行迁移：python manage.py migrate 应用名
  
  3.对于默认数据库，未来避免出现混乱，如果数据库没数据，可以删除
  自带sqllite3数据库，重新生成
  
  
+ #启用脚本查询数据库
+ 
+ 1.进入虚拟环境 ，进入项目文件夹，执行命令python manage.py  shell打开编辑界面
+ 
+ (test) G:\001-Python\clone_project\django_v1\Danke_test>python manage.py  shell
+ 
+ 2. 导入APP（test_app）里 Models XX表(Teacher)
+ from test_app.models import Teacher
+ 
+ 3.数据库增删改查
+ 
+ #查询所有
+>>> a=Teacher.objects.all()
+>>> a
+[<Teacher: Danke>, <Teacher: XiaoMing>, <Teacher: XiaoLi>]
+
+Teacher.objects.all().values('name')    #只取user列
+ #取出id和user列，并生成一个列表
+ a=Teacher.objects.all().values_list('name','age')
+ >>> a
+ [('Danke', 19), ('XiaoMing', 33), ('XiaoLi', 19)]
+
+#查询age=19、name=Danke的值
+Teacher.objects.get(age=19)
+Teacher.objects.get(name='Danke')
